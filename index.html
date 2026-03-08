@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>С 8 марта ❤️ букет для тебя</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffd0d0 0%, #ffadad 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ЛЕТАЮЩИЕ ФОТО НА ФОНЕ - 10 ШТУК, чуть крупнее */
+        .floating-photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .float-photo {
+            position: absolute;
+            width: 140px;  /* Чуть больше */
+            height: 140px;  /* Чуть больше */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid white;  /* Рамка тоже чуть толще */
+            box-shadow: 0 20px 30px rgba(255, 80, 80, 0.5);
+            animation: float 18s infinite ease-in-out;
+            opacity: 0.55;  /* Совсем чуть плотнее */
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(45px, -45px) rotate(8deg); }
+            50% { transform: translate(90px, 35px) rotate(-8deg); }
+            75% { transform: translate(35px, 80px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* РАСПОЛОЖЕНИЕ 10 ФОТО */
+        .float-photo:nth-child(1) { top: 2%; left: 3%; animation-duration: 21s; }
+        .float-photo:nth-child(2) { top: 65%; left: 2%; animation-duration: 25s; }
+        .float-photo:nth-child(3) { top: 15%; right: 3%; animation-duration: 23s; }
+        .float-photo:nth-child(4) { bottom: 8%; right: 4%; animation-duration: 27s; }
+        .float-photo:nth-child(5) { top: 40%; left: 20%; animation-duration: 19s; }
+        .float-photo:nth-child(6) { top: 12%; left: 55%; animation-duration: 22s; }
+        .float-photo:nth-child(7) { bottom: 20%; left: 12%; animation-duration: 24s; }
+        .float-photo:nth-child(8) { top: 55%; right: 10%; animation-duration: 20s; }
+        .float-photo:nth-child(9) { bottom: 30%; right: 25%; animation-duration: 26s; }
+        .float-photo:nth-child(10) { top: 78%; left: 35%; animation-duration: 23s; }
+
+        .container {
+            max-width: 440px;
+            width: 100%;
+            background: rgba(255, 240, 240, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 60px;
+            padding: 24px 18px;
+            box-shadow: 0 20px 40px rgba(255, 100, 100, 0.4), 0 0 0 4px white inset;
+            border: 1px solid #ffaeae;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title h1 {
+            font-size: 2.5rem;
+            color: #d43b3b;
+            text-shadow: 3px 3px 0 #ffe0e0;
+        }
+
+        .title p {
+            color: #b54545;
+            font-size: 1.2rem;
+        }
+
+        .counter-box {
+            background: white;
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin: 15px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 0 #ff9f9f;
+            border: 2px solid #ff7b7b;
+        }
+
+        .counter-text {
+            color: #b54545;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .counter-number {
+            background: #ff7b7b;
+            color: white;
+            padding: 5px 25px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 3px 0 #b54545;
+        }
+
+        /* Игровое поле */
+        .game-area {
+            background: #ffc9c9;
+            border-radius: 50px;
+            padding: 25px 15px;
+            border: 4px dashed white;
+            margin-bottom: 15px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-area.hidden {
+            opacity: 0;
+            pointer-events: none;
+            height: 0;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .flowers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .flower-item {
+            font-size: 3.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            filter: drop-shadow(0 6px 0 #d46b6b);
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff2c9;
+            border-radius: 30px;
+            border: 4px solid white;
+            transform: scale(1);
+        }
+
+        .flower-item:active {
+            transform: scale(0.7);
+            filter: drop-shadow(0 2px 0 #d46b6b);
+        }
+
+        .flower-item.collected {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0);
+        }
+
+        .hint {
+            color: #b54545;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* ФИНАЛ - БУКЕТ НА ВЕСЬ КВАДРАТ */
+        .final-section {
+            margin: 20px 0 15px;
+            display: none;
+        }
+
+        .final-section.show {
+            display: block;
+            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .bouquet-card {
+            background: #ffdede;
+            border-radius: 50px;
+            padding: 10px;
+            border: 5px solid white;
+            box-shadow: 0 15px 0 #d46b6b;
+            transform: rotate(1deg);
+        }
+
+        .bouquet-square {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            background: linear-gradient(145deg, #ffb3b3, #ff8f8f);
+            border-radius: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ОГРОМНЫЙ СМАЙЛИК БУКЕТА */
+        .big-bouquet {
+            font-size: 8rem;
+            line-height: 1;
+            filter: drop-shadow(0 15px 10px rgba(180, 60, 60, 0.4));
+            animation: wiggle 3s infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* НАДПИСЬ "ЭТО ТЕБЕ" */
+        .for-you-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 4px 4px 0 #d44b4b, 6px 6px 0 rgba(255,200,200,0.5);
+            background: rgba(255, 120, 120, 0.8);
+            padding: 10px 30px;
+            border-radius: 60px;
+            backdrop-filter: blur(5px);
+            border: 3px solid white;
+            letter-spacing: 4px;
+            transform: rotate(-2deg);
+            margin-top: 10px;
+        }
+
+        /* ФОТО В УГЛУ - БОЛЬШОЕ 100px */
+        .big-corner-photo {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            border: 5px solid white;
+            object-fit: cover;
+            box-shadow: 0 8px 0 #b15858, 0 15px 25px rgba(0,0,0,0.2);
+            opacity: 0.95;
+            transition: transform 0.3s;
+        }
+
+        .big-corner-photo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .congrats-message {
+            background: #fff0f0;
+            border-radius: 40px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 3px solid #ffa5a5;
+            color: #882e2e;
+            text-align: center;
+        }
+
+        .congrats-message h2 {
+            font-size: 2rem;
+            color: #ff6b6b;
+        }
+
+        .reset-button {
+            background: #ffa5a5;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border-bottom: 5px solid #b15858;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .reset-button:active {
+            border-bottom-width: 2px;
+            transform: translateY(3px);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #b57a7a;
+        }
+
+        /* Скрытый аудио элемент */
+        #bgMusic {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- ЛЕТАЮЩИЕ ФОТО (10 штук) - КРУГИ 140px -->
+    <div class="floating-photos">
+        <!-- ВСТАВЬ СВОИ 10 ФОТО (измени названия) -->
+        <img src="foto1.jpg" class="float-photo" alt="фото1">
+        <img src="foto2.jpg" class="float-photo" alt="фото2">
+        <img src="foto3.jpg" class="float-photo" alt="фото3">
+        <img src="foto4.jpg" class="float-photo" alt="фото4">
+        <img src="foto5.jpg" class="float-photo" alt="фото5">
+        <img src="foto6.jpg" class="float-photo" alt="фото6">
+        <img src="foto7.jpg" class="float-photo" alt="фото7">
+        <img src="foto8.jpg" class="float-photo" alt="фото8">
+        <img src="foto9.jpg" class="float-photo" alt="фото9">
+        <img src="foto10.jpg" class="float-photo" alt="фото10">
+    </div>
+
+    <div class="container">
+        <!-- Заголовок -->
+        <div class="title">
+            <h1>🌷 8 марта 🌷</h1>
+            <p>Собери букетик!</p>
+        </div>
+
+        <!-- Счетчик -->
+        <div class="counter-box">
+            <span class="counter-text">🌷 цветов:</span>
+            <span class="counter-number" id="counterDisplay">0/9</span>
+        </div>
+
+        <!-- ИГРА (скрывается после победы) -->
+        <div class="game-area" id="gameArea">
+            <div class="flowers-grid" id="flowersGrid"></div>
+            <div class="hint" id="hintMessage">нажми на цветок 🌷</div>
+        </div>
+
+        <!-- ФИНАЛ: БУКЕТ + ЭТО ТЕБЕ + БОЛЬШОЕ ФОТО -->
+        <div class="final-section" id="finalSection">
+            <div class="bouquet-card">
+                <div class="bouquet-square">
+                    <!-- ОГРОМНЫЙ БУКЕТ -->
+                    <div class="big-bouquet">💐</div>
+                    <!-- НАДПИСЬ "ЭТО ТЕБЕ" -->
+                    <div class="for-you-text">ЭТО ТЕБЕ</div>
+                    <!-- БОЛЬШОЕ ФОТО В УГЛУ (100px) -->
+                    <img src="foto1.jpg" class="big-corner-photo" id="cornerPhoto">
+                </div>
+            </div>
+            
+            <!-- Поздравление -->
+            <div class="congrats-message">
+                <h2>С 8 Марта!</h2>
+                <p>Моя любимая, этот букет</p>
+                <p>для самой красивой девочки! Будь всегда такой же прекрасной!</p>
+                <p>❤️ ❤️ ❤️</p>
+                <p><em>Матвей</em></p>
+            </div>
+        </div>
+
+        <button class="reset-button" id="resetBtn">🌱 начать сначала</button>
+        <footer>собери 9 цветов</footer>
+    </div>
+
+    <!-- МУЗЫКА (играет автоматически с указанной секунды) -->
+    <audio id="bgMusic" loop preload="auto">
+        <!-- ВСТАВЬ СВОЙ MP3 ФАЙЛ -->
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        (function() {
+            // ==============================================
+            // ⚙️ НАСТРОЙКА ВРЕМЕНИ СТАРТА МУЗЫКИ (В СЕКУНДАХ)
+            // ==============================================
+            const MUSIC_START_SECONDS = 60; // ← ИЗМЕНИ ЭТО ЧИСЛО (например, 47 = 0:47, 90 = 1:30)
+            
+            const TOTAL_FLOWERS = 9;
+            let collectedCount = 0;
+            let gameActive = true;
+            let musicStarted = false;
+            let musicReady = false;
+
+            const flowersGrid = document.getElementById('flowersGrid');
+            const counterDisplay = document.getElementById('counterDisplay');
+            const gameArea = document.getElementById('gameArea');
+            const finalSection = document.getElementById('finalSection');
+            const hintMessage = document.getElementById('hintMessage');
+            const resetBtn = document.getElementById('resetBtn');
+            const bgMusic = document.getElementById('bgMusic');
+
+            // Устанавливаем время начала
+            bgMusic.addEventListener('loadedmetadata', function() {
+                if (bgMusic.duration > MUSIC_START_SECONDS) {
+                    bgMusic.currentTime = MUSIC_START_SECONDS;
+                }
+                musicReady = true;
+            });
+
+            // Если музыка уже загружена
+            if (bgMusic.readyState >= 1) {
+                if (bgMusic.duration > MUSIC_START_SECONDS) {
+                    bgMusic.currentTime = MUSIC_START_SECONDS;
+                }
+                musicReady = true;
+            }
+
+            // Функция для попытки включить музыку
+            function tryPlayMusic() {
+                if (!musicStarted && musicReady) {
+                    bgMusic.play().then(() => {
+                        musicStarted = true;
+                    }).catch(() => {});
+                }
+            }
+
+            // Цветочки
+            const flowers = ['🌷', '🌷', '🌷', '🌷', '🌷', '🌷', '🌷', '🌷', '🌷'];
+
+            // Создание цветка
+            function createFlower(index) {
+                const flower = document.createElement('div');
+                flower.className = 'flower-item';
+                flower.dataset.index = index;
+                flower.textContent = flowers[index];
+
+                flower.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    tryPlayMusic();
+                    
+                    if (!gameActive) return;
+                    if (flower.classList.contains('collected')) return;
+
+                    flower.classList.add('collected');
+                    collectedCount++;
+                    updateCounter();
+
+                    if (collectedCount === TOTAL_FLOWERS) {
+                        gameActive = false;
+                        gameArea.classList.add('hidden');
+                        finalSection.classList.add('show');
+                    }
+                });
+
+                flower.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    tryPlayMusic();
+                }, { passive: false });
+
+                return flower;
+            }
+
+            function updateCounter() {
+                counterDisplay.textContent = `${collectedCount}/${TOTAL_FLOWERS}`;
+            }
+
+            function resetGame() {
+                flowersGrid.innerHTML = '';
+                collectedCount = 0;
+                gameActive = true;
+                updateCounter();
+                gameArea.classList.remove('hidden');
+                finalSection.classList.remove('show');
+                hintMessage.textContent = 'нажми на цветок 🌷';
+
+                for (let i = 0; i < TOTAL_FLOWERS; i++) {
+                    flowersGrid.appendChild(createFlower(i));
+                }
+                
+                // Сбрасываем время музыки
+                if (musicReady) {
+                    bgMusic.currentTime = MUSIC_START_SECONDS;
+                }
+                if (musicStarted) {
+                    bgMusic.pause();
+                    musicStarted = false;
+                }
+            }
+
+            resetBtn.addEventListener('click', resetGame);
+            resetGame();
+            
+            // Пытаемся включить музыку при старте (но браузер может заблокировать)
+            setTimeout(() => {
+                tryPlayMusic();
+            }, 500);
+
+            // Обработка ошибок загрузки фото
+            const photos = document.querySelectorAll('.float-photo, #cornerPhoto');
+            photos.forEach(img => {
+                img.onerror = function() {
+                    this.style.background = '#ffb3b3';
+                    this.src = '';
+                    // Добавляем эмодзи сердца как заглушку
+                    this.alt = '❤️';
+                };
+            });
+        })();
+    </script>
+</body>
+</html>
