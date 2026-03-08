@@ -31,8 +31,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
-            pointer-events: none;
+            z-index: 0; /* Самый низкий слой */
+            pointer-events: none; /* Не мешают нажатиям */
         }
 
         /* ДЛЯ КОМПЬЮТЕРА - фото 140px */
@@ -48,35 +48,36 @@
             opacity: 0.55;
         }
 
-        /* ДЛЯ ТЕЛЕФОНОВ - фото 90px */
+        /* ДЛЯ ТЕЛЕФОНОВ - фото 80px и ярче */
         @media (max-width: 768px) {
             .float-photo {
-                width: 90px;
-                height: 90px;
-                border: 4px solid white;
-                opacity: 0.4;
+                width: 80px;
+                height: 80px;
+                border: 3px solid white;
+                opacity: 0.7; /* Ярче чтобы было видно */
+                box-shadow: 0 10px 20px rgba(255, 80, 80, 0.6);
             }
         }
 
         @keyframes float {
             0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(45px, -45px) rotate(8deg); }
-            50% { transform: translate(90px, 35px) rotate(-8deg); }
-            75% { transform: translate(35px, 80px) rotate(5deg); }
+            25% { transform: translate(30px, -30px) rotate(5deg); }
+            50% { transform: translate(60px, 20px) rotate(-5deg); }
+            75% { transform: translate(20px, 50px) rotate(3deg); }
             100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        /* РАСПОЛОЖЕНИЕ 10 ФОТО */
-        .float-photo:nth-child(1) { top: 2%; left: 3%; animation-duration: 21s; }
-        .float-photo:nth-child(2) { top: 65%; left: 2%; animation-duration: 25s; }
-        .float-photo:nth-child(3) { top: 15%; right: 3%; animation-duration: 23s; }
-        .float-photo:nth-child(4) { bottom: 8%; right: 4%; animation-duration: 27s; }
-        .float-photo:nth-child(5) { top: 40%; left: 20%; animation-duration: 19s; }
-        .float-photo:nth-child(6) { top: 12%; left: 55%; animation-duration: 22s; }
-        .float-photo:nth-child(7) { bottom: 20%; left: 12%; animation-duration: 24s; }
-        .float-photo:nth-child(8) { top: 55%; right: 10%; animation-duration: 20s; }
-        .float-photo:nth-child(9) { bottom: 30%; right: 25%; animation-duration: 26s; }
-        .float-photo:nth-child(10) { top: 78%; left: 35%; animation-duration: 23s; }
+        /* РАСПОЛОЖЕНИЕ 10 ФОТО - адаптивное */
+        .float-photo:nth-child(1) { top: 5%; left: 2%; animation-duration: 20s; }
+        .float-photo:nth-child(2) { top: 70%; left: 5%; animation-duration: 24s; }
+        .float-photo:nth-child(3) { top: 15%; right: 2%; animation-duration: 22s; }
+        .float-photo:nth-child(4) { bottom: 10%; right: 5%; animation-duration: 26s; }
+        .float-photo:nth-child(5) { top: 40%; left: 15%; animation-duration: 19s; }
+        .float-photo:nth-child(6) { top: 20%; left: 60%; animation-duration: 21s; }
+        .float-photo:nth-child(7) { bottom: 25%; left: 10%; animation-duration: 23s; }
+        .float-photo:nth-child(8) { top: 60%; right: 8%; animation-duration: 20s; }
+        .float-photo:nth-child(9) { bottom: 30%; right: 20%; animation-duration: 25s; }
+        .float-photo:nth-child(10) { top: 80%; left: 30%; animation-duration: 22s; }
 
         .container {
             max-width: 440px;
@@ -89,7 +90,7 @@
             box-shadow: 0 20px 40px rgba(255, 100, 100, 0.4), 0 0 0 4px white inset;
             border: 1px solid #ffaeae;
             position: relative;
-            z-index: 2;
+            z-index: 2; /* Выше чем фото */
         }
 
         .title {
@@ -178,6 +179,8 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             user-select: none;
+            position: relative;
+            z-index: 10; /* Самый высокий слой */
         }
 
         .flower-item:active {
@@ -195,6 +198,8 @@
             color: #b54545;
             margin-top: 15px;
             font-size: 1.1rem;
+            z-index: 10;
+            position: relative;
         }
 
         .final-section {
@@ -276,7 +281,6 @@
             opacity: 0.95;
         }
 
-        /* ДЛЯ ТЕЛЕФОНОВ - фото в углу 70px */
         @media (max-width: 768px) {
             .big-corner-photo {
                 width: 70px;
@@ -318,6 +322,8 @@
             transition: 0.1s;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 10;
         }
 
         .reset-button:active {
@@ -329,6 +335,8 @@
             text-align: center;
             margin-top: 15px;
             color: #b57a7a;
+            position: relative;
+            z-index: 10;
         }
 
         #bgMusic {
@@ -337,7 +345,7 @@
     </style>
 </head>
 <body>
-    <!-- ЛЕТАЮЩИЕ ФОТО (foto1.jpg - foto10.jpg) -->
+    <!-- ЛЕТАЮЩИЕ ФОТО -->
     <div class="floating-photos">
         <img src="foto1.jpg" class="float-photo" alt="фото1" onerror="this.style.background='#ffb3b3'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.fontSize='2rem'; this.alt='❤️';">
         <img src="foto2.jpg" class="float-photo" alt="фото2" onerror="this.style.background='#ffb3b3'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.fontSize='2rem'; this.alt='❤️';">
@@ -354,7 +362,7 @@
     <div class="container">
         <div class="title">
             <h1>💐 8 марта 💐</h1>
-            <p>собери букет для меня</p>
+            <p>Собери букет!</p>
         </div>
 
         <div class="counter-box">
@@ -379,9 +387,9 @@
             <div class="congrats-message">
                 <h2>С 8 Марта!</h2>
                 <p>Моя любимая, этот букет</p>
-                <p>для самой красивой девочки!</p>
+                <p>для самой красивой девочки моей!</p>
                 <p>❤️ ❤️ ❤️</p>
-                <p><em>Матвей</em></p>
+                <p><em>МАТВЕЙ</em></p>
             </div>
         </div>
 
@@ -417,13 +425,6 @@
                 musicReady = true;
             });
 
-            if (bgMusic.readyState >= 1) {
-                if (bgMusic.duration > MUSIC_START_SECONDS) {
-                    bgMusic.currentTime = MUSIC_START_SECONDS;
-                }
-                musicReady = true;
-            }
-
             function tryPlayMusic() {
                 if (!musicStarted && musicReady) {
                     bgMusic.play().then(() => {
@@ -437,6 +438,7 @@
                 flower.className = 'flower-item';
                 flower.textContent = '🌷';
 
+                // Нажатие для мыши
                 flower.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -460,10 +462,28 @@
                     }
                 });
 
-                flower.addEventListener('touchstart', (e) => {
+                // Нажатие для телефона
+                flower.addEventListener('touchstart', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     tryPlayMusic();
+                    
+                    if (!gameActive) return;
+                    if (flower.classList.contains('collected')) return;
+
+                    flower.classList.add('collected');
+                    collectedCount++;
+                    
+                    counterDisplay.textContent = `${collectedCount}/${TOTAL_FLOWERS}`;
+
+                    if (collectedCount === TOTAL_FLOWERS) {
+                        gameActive = false;
+                        gameArea.style.display = 'none';
+                        finalSection.classList.add('show');
+                        hintMessage.textContent = '🎉 букет собран! 🎉';
+                    } else {
+                        hintMessage.textContent = `осталось ${TOTAL_FLOWERS - collectedCount}`;
+                    }
                 }, { passive: false });
 
                 return flower;
@@ -493,6 +513,13 @@
             }
 
             resetBtn.addEventListener('click', resetGame);
+            
+            // Дополнительная обработка для телефона
+            resetBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                resetGame();
+            }, { passive: false });
+            
             resetGame();
             
             setTimeout(() => {
